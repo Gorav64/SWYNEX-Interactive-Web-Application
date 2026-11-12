@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101225" />
+  <meta name="description" content="TaskFlow is a clean, responsive task manager for planning and tracking everyday work." />
+  <title>TaskFlow — Smart Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="TaskFlow home">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19.5 6.8"/></svg></span>
+        <span>task<span class="brand-light">flow</span></span>
+      </a>
+
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="all"><span class="nav-icon">▦</span><span>All tasks</span><span class="nav-count" id="allCount">0</span></button>
+        <button class="nav-item" data-view="today"><span class="nav-icon">◷</span><span>Today</span><span class="nav-count" id="todayCount">0</span></button>
+        <button class="nav-item" data-view="upcoming"><span class="nav-icon">▤</span><span>Upcoming</span></button>
+        <button class="nav-item" data-view="completed"><span class="nav-icon">✓</span><span>Completed</span><span class="nav-count" id="completedCount">0</span></button>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+      <div class="workspace-label">YOUR SPACE</div>
+      <div class="sidebar-note">
+        <div class="note-icon">✦</div>
+        <div>
+          <strong>Make room for focus</strong>
+          <p>Small steps add up to big progress.</p>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">Y</div>
+        <div class="profile-copy"><strong>My workspace</strong><span>Personal account</span></div>
+        <span class="profile-menu">•••</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbView">All tasks</strong></div>
+        <div class="topbar-right">
+          <span class="date-label" id="todayLabel"></span>
+          <div class="top-avatar">Y</div>
+        </div>
+      </header>
+
+      <section class="page-wrap">
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR PERSONAL PRODUCTIVITY SPACE</div>
+            <h1 id="pageTitle">Good day. <span>Let's get things done.</span></h1>
+            <p class="page-subtitle" id="pageSubtitle">A little progress each day adds up to big results.</p>
+          </div>
+          <button class="primary-btn" id="openAddBtn"><span class="plus">＋</span> Add new task</button>
+        </div>
+
+        <section class="stats-grid" aria-label="Task overview">
+          <article class="stat-card">
+            <div class="stat-top"><span>Total tasks</span><span class="stat-symbol purple">▦</span></div>
+            <div class="stat-number" id="totalStat">0</div>
+            <div class="stat-foot"><span class="stat-dot purple-bg"></span> All your tasks in one place</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>In progress</span><span class="stat-symbol blue">◷</span></div>
+            <div class="stat-number" id="progressStat">0</div>
+            <div class="stat-foot"><span class="stat-dot blue-bg"></span> Tasks waiting for you</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Completed</span><span class="stat-symbol green">✓</span></div>
+            <div class="stat-number" id="completedStat">0</div>
+            <div class="stat-foot"><span class="stat-dot green-bg"></span> Great work — keep going</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Completion rate</span><span class="stat-symbol orange">↗</span></div>
+            <div class="stat-number" id="rateStat">0%</div>
+            <div class="progress-track"><span id="rateBar"></span></div>
+          </article>
+        </section>
+
+        <section class="task-section">
+          <div class="section-heading">
+            <div>
+              <h2 id="listHeading">Your tasks</h2>
+              <p id="listDescription">Keep your priorities clear and your momentum going.</p>
+            </div>
+            <div class="view-switch" aria-label="Change task layout">
+              <button class="view-btn active" id="listViewBtn" aria-label="List view">☷</button>
+              <button class="view-btn" id="gridViewBtn" aria-label="Grid view">▦</button>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-box">
+              <span>⌕</span>
+              <input type="search" id="searchInput" placeholder="Search tasks..." aria-label="Search tasks" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <div class="toolbar-actions">
+              <select id="priorityFilter" aria-label="Filter by priority">
+                <option value="all">All priorities</option>
+                <option value="high">High priority</option>
+                <option value="medium">Medium priority</option>
+                <option value="low">Low priority</option>
+              </select>
+              <select id="sortSelect" aria-label="Sort tasks">
+                <option value="newest">Recently added</option>
+                <option value="oldest">Oldest first</option>
+                <option value="due">Due date</option>
+                <option value="priority">Priority</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-row" id="quickFilters">
+            <button class="filter-chip selected" data-filter="all">All <span id="chipAll">0</span></button>
+            <button class="filter-chip" data-filter="active">Active <span id="chipActive">0</span></button>
+            <button class="filter-chip" data-filter="completed">Completed <span id="chipCompleted">0</span></button>
+          </div>
+
+          <div class="task-list" id="taskList" aria-live="polite"></div>
+        </section>
+
+        <footer class="footer">
+          <span>Made for meaningful progress.</span>
+          <span><i></i> Your tasks are saved on this device</span>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="taskModal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-heading">
+        <div><span class="modal-kicker">TASK DETAILS</span><h2 id="modalTitle">Create a new task</h2></div>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Close dialog">×</button>
+      </div>
+      <form id="taskForm" novalidate>
+        <label class="field-label" for="taskTitle">Task title <span>*</span></label>
+        <input class="text-field" id="taskTitle" name="title" maxlength="90" placeholder="e.g. Finish project presentation" required />
+        <p class="field-error" id="titleError"></p>
+
+        <label class="field-label" for="taskDescription">Description <small>Optional</small></label>
+        <textarea class="text-field textarea" id="taskDescription" name="description" maxlength="240" rows="3" placeholder="Add a few details about this task..."></textarea>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="taskPriority">Priority</label>
+            <select class="text-field" id="taskPriority" name="priority">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="taskDue">Due date</label>
+            <input class="text-field" id="taskDue" name="dueDate" type="date" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="saveTaskBtn">Create task</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
